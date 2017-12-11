@@ -2,5 +2,5 @@
 import pika
 import time
 
-## Implement consumption of message from "grant-reward" queue binded to "enter-game" exchange
-## The logic should publish a message to "send-notification" exhange
+## Implement consumption of message from "find-opponent" queue binded to "enter-game" exchange
+## It should retry twice with delay of 5 seconds and then publish a message to "send-notification" exchange

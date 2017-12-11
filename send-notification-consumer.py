@@ -4,18 +4,12 @@ import time
 import requests
 import json
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(
-        host='message-broker'))
-channel = connection.channel()
+## Set correct value of userId to support notifications
+userId = "ksobczak"
 
-channel.exchange_declare(exchange='send-notification',
-                         exchange_type='fanout')
+## Implement consumption of messages from "send-notification" queue binded to "send-notification" exchange
 
-channel.queue_declare(queue='send-notification', durable=True)
-print(' [*] Waiting for messages. To exit press CTRL+C')
-
-channel.queue_bind(exchange='send-notification', queue='send-notification')
-
+## Callback for sending notifications
 def callback(ch, method, properties, body):
 
     header = {"Content-Type": "application/json; charset=utf-8",
@@ -24,16 +18,10 @@ def callback(ch, method, properties, body):
     message = str(body)
     payload = {"app_id": "39ce40cf-9326-49ee-9fb3-b32c00828b37",
                "filters": [
-    			  	{"field": "tag", "key": "userId", "relation": "=", "value": "ksobczak"}
+    			  	{"field": "tag", "key": "userId", "relation": "=", "value": userId}
     			],
                "contents": {"en": message}}
 
     req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
-
-channel.basic_qos(prefetch_count=1)
-channel.basic_consume(callback,
-                      queue='send-notification')
-
-channel.start_consuming()

@@ -2,16 +2,7 @@
 import pika
 import sys
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(
-        host='message-broker'))
-channel = connection.channel()
-
-channel.exchange_declare(exchange='enter-game',
-                         exchange_type='fanout')
-
-channel.basic_publish(exchange='enter-game',
-                      routing_key='',
-                      body=message)
+## Implement publishing message to "enter-game" exchange
 
 print(" [x] Sent enter-game message")
 
