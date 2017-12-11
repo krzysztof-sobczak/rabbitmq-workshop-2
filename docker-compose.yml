@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+
+  enter-game-producer:
+      build: ./
+      links:
+         - message-broker
+      volumes:
+         - ./:/usr/src/app
+      command: "python enter-game-producer.py"
+
+  grant-reward-consumer:
+      build: ./
+      links:
+         - message-broker
+      volumes:
+         - ./:/usr/src/app
+      command: "python grant-reward-consumer.py"
+
+  send-notification-consumer:
+      build: ./
+      links:
+         - message-broker
+      volumes:
+         - ./:/usr/src/app
+      command: "python send-notification-consumer.py"
+
+  web-notifications-frontend:
+      image: "nginx"
+      ports: 
+         - 80:80
+      volumes:
+         - ./:/usr/share/nginx/html:ro
+
+  message-broker:
+      image: "rabbitmq:3.6.14-management"
+      ports:
+          - 5672:5672
+          - 15672:15672
