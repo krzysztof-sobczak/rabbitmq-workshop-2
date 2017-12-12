@@ -7,6 +7,11 @@ Add to **/etc/hosts** (Linux) or **c:\WINDOWS\system32\drivers\etc\hosts** (Wind
 127.0.0.1 rabbitmq.workshop.com
 ```
 
+Update **./index.html** with your custom/unique userId:
+ ```javascript
+var workshopUserId = "yourCustomUserName";
+```
+
 ## Usage
 
 Starting the project:
