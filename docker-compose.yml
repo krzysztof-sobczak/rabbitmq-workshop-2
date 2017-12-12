@@ -18,6 +18,22 @@ services:
          - ./:/usr/src/app
       command: "python grant-reward-consumer.py"
 
+  grant-reward-failure-consumer:
+      build: ./
+      links:
+         - message-broker
+      volumes:
+         - ./:/usr/src/app
+      command: "python grant-reward-failure-consumer.py"
+
+  find-opponent-consumer:
+      build: ./
+      links:
+         - message-broker
+      volumes:
+         - ./:/usr/src/app
+      command: "python find-opponent-consumer.py"
+
   send-notification-consumer:
       build: ./
       links:
