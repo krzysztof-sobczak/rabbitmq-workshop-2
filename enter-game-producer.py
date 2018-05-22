@@ -11,7 +11,7 @@ channel.exchange_declare(exchange='enter-game',
 
 channel.basic_publish(exchange='enter-game',
                       routing_key='',
-                      body=message)
+                      body='Entered game')
 
 print(" [x] Sent enter-game message")
 
