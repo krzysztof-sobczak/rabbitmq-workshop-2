@@ -11,10 +11,14 @@ channel = connection.channel()
 channel.exchange_declare(exchange='enter-game',
                          exchange_type='fanout')
 
-channel.queue_declare(queue='grant-reward', durable=True)
+channel.exchange_declare(exchange='enter-game-failed',exchange_type='fanout')
+
+channel.queue_declare(queue='grant-reward', durable = True, exclusive = False, auto_delete = False, arguments={
+                                               "x-dead-letter-exchange" : "enter-game-failed",
+                                             })
 print(' [*] Waiting for messages. To exit press CTRL+C')
 
-channel.queue_bind(exchange='enter-game', queue='grant-reward')
+channel.queue_bind(exchange='enter-game', queue='grant-reward');
 
 def callback(ch, method, properties, body):
 
@@ -22,7 +26,7 @@ def callback(ch, method, properties, body):
                           routing_key='',
                           body='Received reward for entering the game')
 
-    ch.basic_ack(delivery_tag = method.delivery_tag)
+    ch.basic_reject(delivery_tag = method.delivery_tag, requeue = False)
 
 channel.basic_qos(prefetch_count=1)
 channel.basic_consume(queue='grant-reward',
