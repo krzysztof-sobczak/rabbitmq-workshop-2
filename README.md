@@ -16,7 +16,7 @@ var workshopUserId = "yourCustomUserName";
 
 Starting the project:
 ```bash
-docker-composer up -d
+docker-compose up -d
 ```
 
 Accessing RabbitMQ management dashboard:
