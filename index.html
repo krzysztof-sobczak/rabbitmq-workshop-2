@@ -1,14 +1,15 @@
 <head>
   <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
   <script>
-    var workshopUserId = "yourCustomUserName";
+    var workshopUserId = "yourCustomUsername";
     var workshopSubdomain = 'rabbitmq1';
 
     console.log('UserId: '+workshopUserId);
     console.log('Subdomain: '+workshopSubdomain);
 
     var OneSignal = window.OneSignal || [];
-    OneSignal.push(["init", {
+    OneSignal.push(function() {
+      OneSignal.init({
       appId: "39ce40cf-9326-49ee-9fb3-b32c00828b37",
       autoRegister: true,
       httpPermissionRequest: {
@@ -18,7 +19,8 @@
           enable: true
       },
       subdomainName: workshopSubdomain
-    }]);
+    });
     OneSignal.push(["sendTag", "userId", workshopUserId]);
+  });
   </script>
 </head>
